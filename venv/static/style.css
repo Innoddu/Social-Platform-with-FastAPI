@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+}
+h1 {
+    color: green;
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(73, 73, 124);
+    padding: 8px 20px; 
+}
+a {
+    text-decoration: none;
+    color: rgb(223, 221, 217);
+  }
+li {
+    list-style: none;
+}
+.navbar_menu {
+    display: flex; /* col -> row (Notice Coummnity Music) */
+    margin: 0px;
+    padding-left: 8em;
+    padding-right: 0px;
+
+}
+.navbar_menu li {
+    padding: 8px 30px;
+}
+.navbar_login {
+    display: flex;
+    margin: 0px;
+    padding-left: 8em;
+    padding-right: 0px;
+ 
+}
+.navbar_login li {
+    padding: 5px 10px;
+}
+
+.board {
+    text-align: center;
+}
+
+table {
+    margin: 0 auto;
+    width: 800px;
+    height: 300px;
+    border-collapse: collapse;
+}
+
+table th {
+    padding: 14px 21px;
+    background: #afafa8;
+    color: #666;
+    font-size: 17px;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #ddd;
+}
+
+table td {
+    padding: 14px 21px;
+    color: #666;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+table tr:hover {
+    background: #eee;
+    cursor: pointer;
+}
+
+.subject {
+    width: 45%;
+    text-align: left;
+}
+
+.paging {
+    padding: 20px 0;
+    width: 800px;
+    margin: 0 auto;
+}
+
+.paging>ul {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.paging>ul>li {
+    padding: 8px;
+    background: #efefef;
+    border: 1px solid #999;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.paging>ul>li:hover {
+    cursor: pointer;
+    background: #333;
+    color: #fff;
+}
+
+.active {
+    background: #333;
+    color: #fff;
+}
