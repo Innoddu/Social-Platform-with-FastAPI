@@ -7,7 +7,7 @@
 * Connect with PostgreSQL
 * Storage and Mangement of Users and Posting Data
 
-* ```
+ ```
 /path/to/project/
 ├── src/
 │   └── main.py
