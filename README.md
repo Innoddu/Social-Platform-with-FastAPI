@@ -1,11 +1,45 @@
-<center>
-# Social Platform with FastAPI
+<div align="center">
+  <h1> Social Platform with FastAPI </h1>
+</div>
+<br>
+<div align="center">
+  <h1>Key Features</h1>
+</div>
+<div align="center">
+  <ul style="list-style-type: none; padding: 0;">
+   <div align="center">
+    <li>Understanding the Backend side with FastAPI </li>
+    <li>Implemented CRUD (Create, Read, Update, Delete) </li>
+    <li>User Authentication</li>
+    <li>Connect with PostgreSQL</li>
+    <li>Storage and Management of Users and Posting Data</li>
+   </div>
+  </ul>
+</div>
 
-* Understanding the Backend side with FastAPI
-* Implemented CRUD (Create, Read, Update, Delete)
-* User Authentication
-* Connect with PostgreSQL
-* Storage and Management of Users and Posting Data
+<br>
+<div align=center><h1>STACKS</h1></div>
+<div align=center> 
+  <img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white"> 
+  <img src="https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=FastAPI&logoColor=white"> 
+  <img src="https://img.shields.io/badge/postgresql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
+  <br>
+  
+  <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> 
+  <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> 
+  <br>
+  
+  <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
+  <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
+  <img src="https://img.shields.io/badge/fontawesome-339AF0?style=for-the-badge&logo=fontawesome&logoColor=white">
+  <br>
+</div>
+<br>
+
+<div align="center">
+  <h1>Path</h1>
+</div>
+<br>
 
  ```
 /path/to/project/
@@ -38,6 +72,5 @@
  └── main.py
  └── pyvenv.cfg
 
-   
 ```
 
