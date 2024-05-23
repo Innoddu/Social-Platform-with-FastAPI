@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from sqlalchemy import create_engine
 from fastapi.templating import Jinja2Templates
-from models import crud, user
+from models import crud, user, feed
 from config import db
 from routers import auth as auth_router
 from sqlalchemy.orm import Session
