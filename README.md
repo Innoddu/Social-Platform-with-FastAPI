@@ -25,13 +25,14 @@
         └── user.py 
     ├── pyvenv.cfg
     ├── routers/
-        └── auth.py // user login and sign-up
+        └── auth.py 
     ├── services/
-        └── auth_service.py // CRUD for User
+        └── auth_service.py
+        └── feed_service.py 
     ├── share/
     ├── static/
         └── login.html
-        └── style.css // CRUD for User 
+        └── style.css 
     ├── templates/
         └── index.html
  └── main.py
