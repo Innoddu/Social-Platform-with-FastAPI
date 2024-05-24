@@ -7,14 +7,15 @@ from sqlalchemy import create_engine
 from fastapi.templating import Jinja2Templates
 from models import crud, user, feed
 from config import db
-from routers import auth as auth_router
+from routers import auth_router, feed_router
 from sqlalchemy.orm import Session
 
 templates = Jinja2Templates(directory="templates")
 user.Base.metadata.create_all(bind=db.engine)
 
 app = FastAPI()
-app.include_router(auth_router.router, prefix="/auth", tags=["auth"])
+app.include_router(auth_router.router, prefix="/api/auth", tags=["auth"])
+app.include_router(feed_router.router, prefix="/api/feed", tags=["feed"])
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 

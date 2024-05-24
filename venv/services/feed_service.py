@@ -1,8 +1,8 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import join
-from models.feed import Feed, FeedCreate, FeedUpdate
-from models.user import User
+from models.feed import FeedCreate, FeedUpdate
+from models.user import User, Feed
 
 def create_feed(db: Session, feed: FeedCreate, author_email: str):
     feed_dict = feed.model_dump()
@@ -13,7 +13,7 @@ def create_feed(db: Session, feed: FeedCreate, author_email: str):
     if author is None:
         raise HTTPException(status_code=404, detail="Author Not Found")
     
-    author_id = author_id
+    author_id = author.id
 
     db_feed = Feed(**feed_dict)
     db.add(db_feed)

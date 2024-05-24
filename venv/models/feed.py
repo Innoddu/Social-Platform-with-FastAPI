@@ -17,7 +17,9 @@ class FeedInDB(FeedCreate):
     pass
 
 class FeedResponse(FeedCreate):
-    id: str
+    id: int
+    title: str
+    content: str
     author_email: str
     author_id: str
     

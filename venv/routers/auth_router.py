@@ -9,6 +9,15 @@ router = APIRouter()
 @router.post("/signup", response_model=UserResponse)
 def signup(user: UserCreate, db: Session = Depends(config.get_db)):
     try:
+        # Check valid Email and Id
+        check_existed_email = auth_service.get_user_by_email(db, user.email)
+        check_existed_id = auth_service.get_user_id_by_email(db, user.id)
+
+        if check_existed_email:
+            raise HTTPException(status_code=400, detail="Email Already Registered")
+        if check_existed_id:
+            raise HTTPException(status_code=400, detail="Id Already Existed")
+        
         db_user = auth_service.create_user(db, user)
         return {"email" : db_user.email, "id": db_user.id}
     except ValueError:
