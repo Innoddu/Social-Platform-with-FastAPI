@@ -1,3 +1,4 @@
 # hidden files
 /config/.env
 /config/setting.py
+/venv/alembic.ini

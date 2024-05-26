@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from models.feed import FeedCreate, FeedResponse, FeedUpdate
+from models.feed import FeedCreate, FeedResponse, FeedUpdate, Feed
 from services import feed_service, auth_service
 from config.db import get_db
 from typing import List
@@ -9,8 +9,9 @@ router = APIRouter()
 
 @router.post("/create", response_model=FeedResponse)
 def create(feed: FeedCreate, db: Session=Depends(get_db), email: str=Depends(auth_service.get_current_user_authorization)):
+    print(email)
     if email is None:
-        raise HTTPException(status_code=401, detail="Not authorized")
+        raise HTTPException(status_code=401, detail="Not authorized!!!!")
     return feed_service.create_feed(db, feed, email)
 
 @router.get("/read/{feed_id}", response_model=FeedResponse)

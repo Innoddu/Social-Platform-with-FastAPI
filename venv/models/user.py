@@ -1,40 +1,35 @@
-from sqlalchemy import Column, String, ForeignKey, Integer
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from pydantic import BaseModel, validator
 from config.db import Base
+from pydantic import BaseModel, validator
 import re
 
-Base = declarative_base()
 
-class Feed(Base):
-    __tablename__ = "feeds"
+# Base = declarative_base()
 
-    id = Column(Integer, primary_key = True, index = True)
-    title = Column(String, index = True)
-    content = Column(String)
-    author_id = Column(String, ForeignKey("user.id"))
-    author_email = Column(String, ForeignKey("users.email"))
 
-    author = relationship("User", back_populates="feeds")
 class User(Base):
     __tablename__="users"
 
     email = Column(String, primary_key=True, index=True)
     password = Column(String())
-    id = Column(String())
+    name = Column(String())
 
     # 1:N
     feeds = relationship("Feed", back_populates="author")
+    comments = relationship("Comment", back_populates="author", post_update=True)
+
+
+
 
 class UserCreate(BaseModel):
     email: str
     password: str
-    id: str
+    name: str
 
 class UserResponse(BaseModel):
     email: str
-    id: str
+    name: str
 
 class UserInDB(UserCreate):
     pass

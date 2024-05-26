@@ -11,15 +11,15 @@ def signup(user: UserCreate, db: Session = Depends(config.get_db)):
     try:
         # Check valid Email and Id
         check_existed_email = auth_service.get_user_by_email(db, user.email)
-        check_existed_id = auth_service.get_user_id_by_email(db, user.id)
+        check_existed_name = auth_service.get_user_name_by_email(db, user.name)
 
         if check_existed_email:
             raise HTTPException(status_code=400, detail="Email Already Registered")
-        if check_existed_id:
+        if check_existed_name:
             raise HTTPException(status_code=400, detail="Id Already Existed")
         
         db_user = auth_service.create_user(db, user)
-        return {"email" : db_user.email, "id": db_user.id}
+        return {"email" : db_user.email, "name": db_user.name}
     except ValueError:
         raise HTTPException(status_code=400, detail="Already Registered")
 
@@ -31,4 +31,4 @@ def login(user: UserLogin, db: Session = Depends(config.get_db)):
         raise HTTPException(status_code=401, detail="invaild Credentials")
 
     access_token = auth_service.create_access_token({"sub": user.email})
-    return {"access_token": access_token, "email": db_user.email, "id": db_user.id}
+    return {"access_token": access_token, "email": db_user.email, "name": db_user.name}

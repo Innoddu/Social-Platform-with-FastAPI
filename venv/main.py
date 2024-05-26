@@ -1,21 +1,28 @@
 from http.client import HTTPException
-from urllib import response
 from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 from sqlalchemy import create_engine
 from fastapi.templating import Jinja2Templates
-from models import crud, user, feed
-from config import db
-from routers import auth_router, feed_router
-from sqlalchemy.orm import Session
+from models.user import Base as UserBase
+from models.feed import Base as FeedBase
+from models.comment import Base as CommentBase
+from routers import auth_router, feed_router, comment_router
+import os
 
 templates = Jinja2Templates(directory="templates")
-user.Base.metadata.create_all(bind=db.engine)
+DATABASE_URL = os.getenv("DATABASE_URL")
+engine = create_engine(DATABASE_URL)
+
+UserBase.metadata.create_all(bind=engine)
+FeedBase.metadata.create_all(bind=engine)
+CommentBase.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 app.include_router(auth_router.router, prefix="/api/auth", tags=["auth"])
 app.include_router(feed_router.router, prefix="/api/feed", tags=["feed"])
+app.include_router(comment_router.router, prefix="/api/comment", tags=['comment'])
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 

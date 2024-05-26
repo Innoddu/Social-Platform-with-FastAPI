@@ -1,19 +1,18 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import join
-from models.feed import FeedCreate, FeedUpdate
-from models.user import User, Feed
+from models.feed import Feed, FeedCreate, FeedUpdate
+from models.user import User
 
 def create_feed(db: Session, feed: FeedCreate, author_email: str):
     feed_dict = feed.model_dump()
     feed_dict["author_email"] = author_email
 
     author = db.query(User).filter(User.email == author_email).first()
-
     if author is None:
         raise HTTPException(status_code=404, detail="Author Not Found")
-    
-    author_id = author.id
+
+    author_name = author.name
 
     db_feed = Feed(**feed_dict)
     db.add(db_feed)
@@ -25,38 +24,38 @@ def create_feed(db: Session, feed: FeedCreate, author_email: str):
         "title": db_feed.title,
         "content": db_feed.content,
         "author_email": db_feed.author_email,
-        "author_id": db_feed.author_id,
+        "author_name": author_name,
     }
 
 def get_feed_by_id(db: Session, feed_id: int):
     feed_data = (
-        db.query(Feed, User.id).join(User, User.email == Feed.author_email).filter(Feed.id == feed_id).first()
+        db.query(Feed, User.name).join(User, User.email == Feed.author_email).filter(Feed.id == feed_id).first()
     )
 
     if feed_data is None:
         raise HTTPException(status=404, detail="Feed Not Found")
 
-    feed, id = feed_data
+    feed, name = feed_data
 
     return {
         "id": feed.id,
         "title": feed.title,
         "content": feed.content,
         "author_email": feed.author_email,
-        "author_id": id
+        "author_id": name
     }
 
 def get_feeds(db: Session):
-    feeds = db.query(Feed, User.id).join(User, User.email == Feed.author_email).all()
+    feeds = db.query(Feed, User.name).join(User, User.email == Feed.author_email).all()
     feed_response = []
 
-    for feed, id in feeds:
+    for feed, name in feeds:
         feed_dict = {
             "id": feed.id,
             "title": feed.title,
             "content": feed.content,
             "author_email": feed.author_email,
-            "author_id": id
+            "author_name": name
         }
         feed_response.append(feed_dict)
     return feed_response
@@ -70,11 +69,10 @@ def get_update(db: Session, feed_id: int, feed_update: FeedUpdate, email: str):
         raise HTTPException(status_code=403, detail="Permission Denied")
 
     author = db.query(User).filter(User.email == email).first()
-    author_id = author.id
+    author_name = author.name
 
     db_feed.title = feed_update.title
     db_feed.content = feed_update.content
-    db_feed.author_id = author_id
 
     db.commit()
     db.refresh(db_feed)
@@ -84,7 +82,7 @@ def get_update(db: Session, feed_id: int, feed_update: FeedUpdate, email: str):
         "title": db_feed.title,
         "content": db_feed.content,
         "author_email": db_feed.author_email,
-        "author_id": author_id,
+        "author_name": author_name,
     }
 
 def delete_feed(db: Session, feed_id: int, email: str):
