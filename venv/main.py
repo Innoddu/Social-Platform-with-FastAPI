@@ -2,7 +2,7 @@ from http.client import HTTPException
 from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from fastapi.templating import Jinja2Templates
 from models.user import Base as UserBase
 from models.feed import Base as FeedBase
@@ -12,11 +12,17 @@ import os
 
 templates = Jinja2Templates(directory="templates")
 DATABASE_URL = os.getenv("DATABASE_URL")
-engine = create_engine(DATABASE_URL)
+engine = create_async_engine(DATABASE_URL, echo=True)
 
-UserBase.metadata.create_all(bind=engine)
-FeedBase.metadata.create_all(bind=engine)
-CommentBase.metadata.create_all(bind=engine)
+async def init_db():
+    async with engine.begin() as conn:
+        await conn.run_sync(UserBase.metadata.create_all)
+        await conn.run_sync(FeedBase.metadata.create_all)
+        await conn.run_sync(CommentBase.metadata.create_all)
+# engine = create_engine(DATABASE_URL)
+# UserBase.metadata.create_all(bind=engine)
+# FeedBase.metadata.create_all(bind=engine)
+# CommentBase.metadata.create_all(bind=engine)
 
 
 app = FastAPI()
