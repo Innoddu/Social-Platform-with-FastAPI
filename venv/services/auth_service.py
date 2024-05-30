@@ -2,7 +2,8 @@ from urllib import request
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import HTTPException, Request, Depends, Header
 from datetime import datetime, timedelta
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from models.user import User
@@ -37,7 +38,7 @@ def create_access_token(data: dict):
     # return type str
     return encoded_jwt
 
-def create_user(db: Session, user: User):
+async def create_user(db: AsyncSession, user: User):
     check_existed_user = get_user_by_email(db, user.email)
     if check_existed_user:
         raise ValueError("Already Registered")
@@ -51,15 +52,17 @@ def create_user(db: Session, user: User):
     # return type is User
     return db_user
 
-# inquerying users by email
-def get_user_by_email(db: Session, email: str):
-    return db.query(User).filter(User.email == email).first()
 
-def get_user_name_by_email(db: Session, name: str):
-    return db.query(User).filter(User.name == name).first()
+async def get_user_by_email(db: AsyncSession, email: str):
+    res = await db.execute(select(User).filter_by(email=email))
+    return res.scalar_one_or_more()
 
-def authenticate_user(db: Session, email: str, password: str):
-    user = get_user_by_email(db, email)
+async def get_user_name_by_email(db: AsyncSession, name: str):
+    res = await db.execute(select(User).filter_by(name=name))
+    return res.scalar_one_or_more()
+
+async def authenticate_user(db: AsyncSession, email: str, password: str):
+    user = await get_user_by_email(db, email)
     if not user:
         raise ValueError("Invaild User")
     if not verify_pwd(password, user.password):
